@@ -8,7 +8,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 path = "audio data/*.mp3"
 all_files = glob.glob(path)
 
-with PdfPages('output.pdf') as pdf_pages:
+with PdfPages('melspectrogram_output.pdf') as pdf_pages:
     for file in all_files:
         y, sr = librosa.load(file, sr=None)
         # Perform processing on the audio file
@@ -20,7 +20,8 @@ with PdfPages('output.pdf') as pdf_pages:
         plt.figure(figsize=(10, 4))
         librosa.display.specshow(S_dB, sr=sr, x_axis='time', y_axis='mel', fmax=8000)
         plt.colorbar(format='%+2.0f dB')
-        plt.title('Mel-frequency spectrogram')
+        plt.title('Mel-frequency spectrogram '+file)
         plt.tight_layout()
         pdf_pages.savefig()
+        plt.show()
         plt.close()
